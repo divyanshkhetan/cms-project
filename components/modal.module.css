@@ -100,12 +100,12 @@
 
   @media(min-width: 680px){
     .formField{
-      min-width: 40vw;
-      max-width: 40vw;
+      min-width: 20rem;
+      max-width: 25vw;
     }
 
     .submitButton{
-      min-width: 40vw;
-      max-width: 40vw;
+      min-width: 20rem;
+      max-width: 25vw;
     }
   }

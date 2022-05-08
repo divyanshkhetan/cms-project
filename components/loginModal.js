@@ -7,21 +7,41 @@ export default function LoginModal({ show, setShow }) {
   const showHideClassName = show ? "display-block" : "display-none";
   const email = useRef(null);
   const password = useRef(null);
-  const userType = useRef(null);
+  const [userType, setUserType] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
   function modalHandler() {
     setShow(false);
   }
 
+  function formValidator(userData) {
+    if (
+      userData.email === "" ||
+      userData.password === "" ||
+      userData.userType === null
+    ) {
+      setErrorMessage("Please fill all the fields");
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   function loginHandler(e) {
     e.preventDefault();
+    setErrorMessage(null);
     const userData = {
       email: email.current.value,
       password: password.current.value,
-      userType: userType.current.value,
+      userType: userType,
     };
-    console.log(userData);
+    if (formValidator(userData)) {
+      console.log(userData);
+    }
+  }
+
+  function userTypeChangeHandler(e) {
+    setUserType(e.target.value);
   }
 
   return (
@@ -71,7 +91,8 @@ export default function LoginModal({ show, setShow }) {
                   id="student"
                   name="userType"
                   value="student"
-                  ref={userType}
+                  onChange={userTypeChangeHandler}
+                  required
                 />
                 <label htmlFor="student">Student</label>
               </div>
@@ -81,7 +102,7 @@ export default function LoginModal({ show, setShow }) {
                   id="faculty"
                   name="userType"
                   value="faculty"
-                  ref={userType}
+                  onChange={userTypeChangeHandler}
                 />
                 <label htmlFor="faculty">Faculty</label>
               </div>

@@ -9,23 +9,71 @@ export default function SignupModal({ show, setShow }) {
   const email = useRef(null);
   const rollno = useRef(null);
   const password = useRef(null);
-  const userType = useRef(null);
-  const [errorMessage, setErrorMessage] = useState("Password incorrect");
+  const [userType, setUserType] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   function modalHandler() {
     setShow(false);
   }
 
+  function passwordValidator(password) {
+    if (password.length < 8) {
+      setErrorMessage("Password must be atleast 8 characters");
+      return false;
+    } else if (password.search(/[a-z]/i) < 0) {
+      setErrorMessage("Password must contain atleast one lowercase letter");
+      return false;
+    } else if (password.search(/[A-Z]/i) < 0) {
+      setErrorMessage("Password must contain atleast one uppercase letter");
+      return false;
+    } else if (password.search(/[0-9]/) < 0) {
+      setErrorMessage("Password must contain atleast one number");
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  function formValidator(userData) {
+    if (userData.name === "") {
+      setErrorMessage("Name cannot be empty");
+      return false;
+    } else if (userData.email === "") {
+      setErrorMessage("Email cannot be empty");
+      return false;
+    } else if (userData.rollno === "") {
+      setErrorMessage("Roll No cannot be empty");
+      return false;
+    } else if (userData.password === "") {
+      setErrorMessage("Password cannot be empty");
+      return false;
+    } else if (userData.userType === null) {
+      setErrorMessage("Please select user type");
+      return false;
+    } else if (!passwordValidator(userData.password)) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  function userTypeChangeHandler(e) {
+    setUserType(e.target.value);
+  }
+
   function signupHandler(e) {
     e.preventDefault();
+    setErrorMessage(null);
     const userData = {
       name: name.current.value,
       email: email.current.value,
       rollno: rollno.current.value,
       password: password.current.value,
-      userType: userType.current.value,
+      userType: userType,
     };
-    console.log(userData);
+    if (formValidator(userData)) {
+      console.log(userData);
+    }
   }
 
   return (
@@ -97,7 +145,8 @@ export default function SignupModal({ show, setShow }) {
                   id="student"
                   name="userType"
                   value="student"
-                  ref={userType}
+                  onChange={userTypeChangeHandler}
+                  required
                 />
                 <label htmlFor="student">Student</label>
               </div>
@@ -107,7 +156,7 @@ export default function SignupModal({ show, setShow }) {
                   id="faculty"
                   name="userType"
                   value="faculty"
-                  ref={userType}
+                  onChange={userTypeChangeHandler}
                 />
                 <label htmlFor="faculty">Faculty</label>
               </div>
