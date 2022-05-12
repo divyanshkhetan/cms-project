@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 const classnames = require("classnames");
 
-export default function LoginModal({ show, setShow }) {
+export default function LoginModal({ show, setShow, csrfToken }) {
   const showHideClassName = show ? "display-block" : "display-none";
   const email = useRef(null);
   const password = useRef(null);
@@ -36,7 +36,7 @@ export default function LoginModal({ show, setShow }) {
       userType: userType,
     };
     if (formValidator(userData)) {
-      console.log(userData);
+      alert("Login Successful");
     }
   }
 
@@ -59,6 +59,7 @@ export default function LoginModal({ show, setShow }) {
 
         <div className={styles.modalContent}>
           <form>
+            <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
             <div className={styles.headingPanel}>
               <h1>Login</h1>
             </div>

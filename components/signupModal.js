@@ -2,6 +2,7 @@ import styles from "./modal.module.css";
 import Image from "next/image";
 import { useRef, useState } from "react";
 const classnames = require("classnames");
+const axios = require("axios");
 
 export default function SignupModal({ show, setShow }) {
   const showHideClassName = show ? "display-block" : "display-none";
@@ -72,7 +73,19 @@ export default function SignupModal({ show, setShow }) {
       userType: userType,
     };
     if (formValidator(userData)) {
-      console.log(userData);
+      axios
+        .post("/api/signup", userData)
+        .then((res) => {
+          if (res.data.success) {
+            setErrorMessage(res.data.message);
+          } else {
+            setErrorMessage(res.data.message);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          setErrorMessage(err.response.data.message);
+        });
     }
   }
 

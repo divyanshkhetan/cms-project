@@ -1,13 +1,22 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import LoginModal from "../components/loginModal";
 import SignupModal from "../components/signupModal";
 import { useState } from "react";
+import { signIn, useSession } from "next-auth/react";
 
 export default function Home() {
   const [signupModal, setSignupModal] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
+  const { status } = useSession();
+
+  const router = useRouter();
+
+  if (status === "authenticated") {
+    router.push("/dashboard");
+  }
 
   function toggleSignupModal() {
     setSignupModal(!signupModal);
@@ -32,7 +41,10 @@ export default function Home() {
             <button className={styles.signup} onClick={toggleSignupModal}>
               Sign Up
             </button>
-            <button className={styles.login} onClick={toggleLoginModal}>
+            <button
+              className={styles.login}
+              onClick={() => signIn(undefined, { callbackUrl: "/dashboard" })}
+            >
               Login
             </button>
           </div>
