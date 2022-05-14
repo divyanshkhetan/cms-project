@@ -23,7 +23,7 @@
 
  /* Dropdown Button */
  .dropbtn {
-    background-color: #f8f9fa;
+    background-color: var(--box-color);
     color: var(--text-main);
     padding: 16px;
     font-size: 16px;

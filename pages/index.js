@@ -5,18 +5,11 @@ import styles from "../styles/Home.module.css";
 import LoginModal from "../components/loginModal";
 import SignupModal from "../components/signupModal";
 import { useState } from "react";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, useSession, getSession } from "next-auth/react";
 
 export default function Home() {
   const [signupModal, setSignupModal] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
-  const { status } = useSession();
-
-  const router = useRouter();
-
-  if (status === "authenticated") {
-    router.push("/dashboard");
-  }
 
   function toggleSignupModal() {
     setSignupModal(!signupModal);
@@ -71,7 +64,12 @@ export default function Home() {
 
           <div className={styles.featureList}>
             <div className={styles.feature}>
-              <Image src="/images/icons8-quiz-100.png" width={75} height={75} />
+              <Image
+                src="/images/icons8-quiz-100.png"
+                alt=""
+                width={75}
+                height={75}
+              />
               <div className={styles.featureText}>
                 {" "}
                 <div>Automated</div>
@@ -81,6 +79,7 @@ export default function Home() {
             <div className={styles.feature}>
               <Image
                 src="/images/icons8-coaching-96.png"
+                alt=""
                 width={75}
                 height={75}
               />
@@ -91,7 +90,12 @@ export default function Home() {
               </div>
             </div>
             <div className={styles.feature}>
-              <Image src="/images/icons8-chat-96.png" width={75} height={75} />
+              <Image
+                src="/images/icons8-chat-96.png"
+                alt=""
+                width={75}
+                height={75}
+              />
               <div className={styles.featureText}>
                 {" "}
                 <div>Live</div>
@@ -118,4 +122,20 @@ export default function Home() {
       </footer>
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+  if (session) {
+    return {
+      redirect: {
+        destination: "/dashboard",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { session },
+  };
 }
