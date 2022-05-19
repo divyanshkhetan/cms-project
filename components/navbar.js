@@ -12,6 +12,13 @@ export default function NavBar() {
         <div className={styles.navbarContent}>
           <div className="banner">CMS</div>
           <div className={styles.loginSection}>
+            {session.user.userType == "faculty" ? (
+              <div className={styles.createCourse}>
+                <button className={styles.createCourseBtn}>
+                  Create Course
+                </button>
+              </div>
+            ) : null}
             {status === "authenticated" ? (
               <>
                 <div className={styles.dropdown}>

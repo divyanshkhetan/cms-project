@@ -12,6 +12,7 @@ export default function SignupModal({ show, setShow }) {
   const password = useRef(null);
   const [userType, setUserType] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
 
   function modalHandler() {
     setShow(false);
@@ -77,7 +78,7 @@ export default function SignupModal({ show, setShow }) {
         .post("/api/signup", userData)
         .then((res) => {
           if (res.data.success) {
-            setErrorMessage(res.data.message);
+            setSuccessMessage(res.data.message);
           } else {
             setErrorMessage(res.data.message);
           }
@@ -186,6 +187,20 @@ export default function SignupModal({ show, setShow }) {
                   />
                 </span>
                 <span>{errorMessage}</span>
+              </div>
+            )}
+            {successMessage === null ? null : (
+              <div className={styles.successMessage}>
+                <span>
+                  <Image
+                    className={styles.successImage}
+                    alt="Success!"
+                    src="/images/icons8-ok-40.png"
+                    width={20}
+                    height={20}
+                  />
+                </span>
+                <span>{successMessage}</span>
               </div>
             )}
             <button className={styles.submitButton} onClick={signupHandler}>

@@ -98,6 +98,21 @@
     margin-right: 5px;
   }
 
+  .successMessage{
+    color: var(--color-success);
+    margin-bottom: 0.25rem;
+    text-align: center;
+  }
+
+  .successMessage span{
+    transform: translateY(3px);
+    margin-right: 5px;
+  }
+
+  .successMessage span img{
+    transform: translateY(1px);
+  }
+
   @media(min-width: 680px){
     .formField{
       min-width: 20rem;

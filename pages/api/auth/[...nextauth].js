@@ -34,15 +34,18 @@ export default NextAuth({
         const { email, password } = credentials;
         let user;
         try {
-          const res = await axios.post("http://localhost:3000/api/login", { email, password });
-          console.log(res);
+          const res = await axios.post("http://localhost:3000/api/login", {
+            email,
+            password,
+          });
+          // console.log(res);
           user = res.data;
         } catch (error) {
           console.log("error", error);
         }
-        // console.log(user);
         // If no error and we have user data, return it
         if (user) {
+          // console.log(user);
           return user;
         }
         // Return null if user data could not be retrieved
@@ -50,4 +53,25 @@ export default NextAuth({
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      // Since you are using Credentials' provider, the data you're persisting
+      // _should_ reside in the user here (as far as can I see, since I've just tested it out).
+      // This gets called whenever a JSON Web Token is created (once) or updated
+      // console.log("token", token);
+      // console.log("user", user);
+      if (user) {
+        token.rollno = user.rollno;
+        token.userType = user.userType;
+      }
+      return token;
+    },
+
+    async session({ session, token }) {
+      // This gets called whenever a session is created (once) or updated
+      session.user.rollno = token.rollno;
+      session.user.userType = token.userType;
+      return session;
+    },
+  },
 });

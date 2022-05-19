@@ -21,6 +21,22 @@
     margin-right: 10px;
 }
 
+.createCourseBtn{
+    background-color: #343a40;
+    color: #fff;
+    border: none;
+    padding: .5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.createCourseBtn:hover{
+  background-color: #f8f9fa;
+    color: #343a40;
+    border: 1px solid #343a40;
+}
+
  /* Dropdown Button */
  .dropbtn {
     background-color: var(--box-color);
