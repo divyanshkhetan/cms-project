@@ -45,6 +45,7 @@ button{
   color: var(--text-main);
   font-family: 'Courier New', Courier, monospace;
   user-select: none;
+  cursor: pointer;
 }
 
 .display-block {

@@ -3,20 +3,24 @@ import { useSession, signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function NavBar() {
+export default function NavBar({ createcourse = true }) {
   const { data: session, status } = useSession();
 
   return (
     <div>
       <nav className={styles.navbar}>
         <div className={styles.navbarContent}>
-          <div className="banner">CMS</div>
+          <Link href="/">
+            <div className="banner">CMS</div>
+          </Link>
           <div className={styles.loginSection}>
-            {session.user.userType == "faculty" ? (
+            {session.user.userType == "faculty" && createcourse ? (
               <div className={styles.createCourse}>
-                <button className={styles.createCourseBtn}>
-                  Create Course
-                </button>
+                <Link href="/faculty/createCourse">
+                  <button className={styles.createCourseBtn}>
+                    Create Course
+                  </button>
+                </Link>
               </div>
             ) : null}
             {status === "authenticated" ? (

@@ -12,6 +12,7 @@ const handler = async (req, res) => {
       try {
         const user = await User.findOne({ email });
         if (user) {
+          // console.log(user._id.toString());
           const passwordMatch = await bcrypt.compare(password, user.password);
           if (passwordMatch) {
             return res.status(200).json({

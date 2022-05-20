@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import nanoid from "nanoid";
 let { Schema } = mongoose;
 
 let course = new Schema({
@@ -8,8 +9,7 @@ let course = new Schema({
   },
   courseId: {
     type: String,
-    required: true,
-    unique: true,
+    default: () => nanoid(10),
   },
   description: {
     type: String,
@@ -20,7 +20,7 @@ let course = new Schema({
     default: 0,
   },
   Instructor: [{ type: Schema.Types.ObjectId, ref: "User" }],
-  Fee: {
+  Price: {
     type: Number,
     default: 0,
   },
