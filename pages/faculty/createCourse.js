@@ -1,8 +1,39 @@
 import NavBar from "../../components/navbar";
 import styles from "./createCourse.module.css";
-import { getSession } from "next-auth/react";
+import { useSession, getSession } from "next-auth/react";
+import { useRef } from "react";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 export default function CreateCourse() {
+  const courseName = useRef(null);
+  const courseDescription = useRef(null);
+  const coursePrice = useRef(null);
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    const data = {
+      name: courseName.current.value,
+      description: courseDescription.current.value,
+      price: coursePrice.current.value === null ? 0 : coursePrice.current.value,
+      instructor: session.user.rollno,
+    };
+    console.log(data);
+    axios
+      .post("/api/courses/create", data)
+      .then((res) => {
+        console.log(res);
+        if (res.status && res.data.message == "Course created successfully") {
+          router.push(`/course/${res.data.course.courseId}`);
+        }
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
+  };
+
   return (
     <>
       <NavBar createcourse={false} />
@@ -16,6 +47,7 @@ export default function CreateCourse() {
               className={styles.formControl}
               id="courseName"
               placeholder="Enter Course Name"
+              ref={courseName}
               required
             />
           </div>
@@ -27,6 +59,7 @@ export default function CreateCourse() {
               id="courseDescription"
               placeholder="Enter Course Description"
               rows={5}
+              ref={courseDescription}
               required
             />
           </div>
@@ -37,9 +70,14 @@ export default function CreateCourse() {
               className={styles.formControl}
               id="coursePrice"
               placeholder="Enter Course Price"
+              ref={coursePrice}
             />
           </div>
-          <button type="submit" className={styles.submit}>
+          <button
+            type="submit"
+            className={styles.submit}
+            onClick={submitHandler}
+          >
             Submit
           </button>
         </form>

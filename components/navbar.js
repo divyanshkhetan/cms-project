@@ -14,7 +14,7 @@ export default function NavBar({ createcourse = true }) {
             <div className="banner">CMS</div>
           </Link>
           <div className={styles.loginSection}>
-            {session.user.userType == "faculty" && createcourse ? (
+            {session && session.user.userType == "faculty" && createcourse ? (
               <div className={styles.createCourse}>
                 <Link href="/faculty/createCourse">
                   <button className={styles.createCourseBtn}>
