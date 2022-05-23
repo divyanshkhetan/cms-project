@@ -23,6 +23,15 @@ export default function NavBar({ createcourse = true }) {
                 </Link>
               </div>
             ) : null}
+            {session && session.user.userType == "student" && createcourse ? (
+              <div className={styles.createCourse}>
+                <Link href="/student/joinCourse">
+                  <button className={styles.createCourseBtn}>
+                    Join Course
+                  </button>
+                </Link>
+              </div>
+            ) : null}
             {status === "authenticated" ? (
               <>
                 <div className={styles.dropdown}>

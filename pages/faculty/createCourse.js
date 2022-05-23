@@ -12,6 +12,17 @@ export default function CreateCourse() {
   const { data: session, status } = useSession();
   const router = useRouter();
 
+  if (session.user.userType !== "faculty") {
+    return (
+      <div>
+        <NavBar />
+        <div className={styles.container}>
+          <h1>You are not authorized to view this page</h1>
+        </div>
+      </div>
+    );
+  }
+
   const submitHandler = (e) => {
     e.preventDefault();
     const data = {
