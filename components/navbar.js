@@ -3,7 +3,7 @@ import { useSession, signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function NavBar({ createcourse = true }) {
+export default function NavBar({ createcourse = true, joincourse = true }) {
   const { data: session, status } = useSession();
 
   return (
@@ -16,16 +16,16 @@ export default function NavBar({ createcourse = true }) {
           <div className={styles.loginSection}>
             {session && session.user.userType == "faculty" && createcourse ? (
               <div className={styles.createCourse}>
-                <Link href="/faculty/createCourse">
+                <Link href="/faculty/createcourse">
                   <button className={styles.createCourseBtn}>
                     Create Course
                   </button>
                 </Link>
               </div>
             ) : null}
-            {session && session.user.userType == "student" && createcourse ? (
+            {session && session.user.userType == "student" && joincourse ? (
               <div className={styles.createCourse}>
-                <Link href="/student/joinCourse">
+                <Link href="/student/joincourse">
                   <button className={styles.createCourseBtn}>
                     Join Course
                   </button>
